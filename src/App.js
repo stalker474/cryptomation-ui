@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import {useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import SimpleTabs from './MainTab';
+import StatusControl from './StatusControl';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: 140,
+    width: 400,
+  },
+  control: {
+    padding: 2,
+  },
+}));
 
 function App() {
+  const [data, setData] = React.useState({running : false});
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch("/status")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+      });
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <SimpleTabs data={data}/>
+     <StatusControl data={data}/>
     </div>
   );
 }
