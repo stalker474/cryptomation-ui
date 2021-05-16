@@ -52,7 +52,7 @@ export default function GasControl(props) {
       if(props.data.CONF.gas != gasLimitValue) setGasLimit(props.data.CONF.gas);
     }
 
-    const cost = ethers.utils.formatUnits(ethers.BigNumber.from(gasPrice.fast * gasLimitValue),"gwei");
+    const cost = ethers.utils.formatUnits(ethers.BigNumber.from(gasPrice.fast / 10 * gasLimitValue),"gwei");
   
     return (
       <Grid container spacing={1}>
