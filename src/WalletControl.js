@@ -17,22 +17,29 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function WalletControl(props) {
-    const classes = useStyles();
     const [privateKey, setPrivateKey] = React.useState("");
     const [destination, setDestination] = React.useState("");
     const [publicKey, setPublicKey] = React.useState("");
     const [balance, setBalance] = React.useState("");
   
     const handlePrivateKeyChange = (event) => {
+      let wallet = new ethers.Wallet(event.target.value.toString());
+      setPublicKey(wallet.address);
+      if(props.data.CONF) {
+        let provider = new ethers.providers.WebSocketProvider(props.data.CONF.local);
+        provider.getBalance(wallet.address).then(b => {
+          setBalance(ethers.utils.formatEther(b));
+        })
+      }
       axios
-      .post('/change', {
+      .post('http://localhost:3001/change', {
         pk: event.target.value.toString()
       })
     };
 
     const handleDestinationChange = (event) => {
       axios
-      .post('/change', {
+      .post('http://localhost:3001/change', {
         dest_address: event.target.value.toString()
       })
     };

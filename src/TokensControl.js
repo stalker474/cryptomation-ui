@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import {DelayInput} from 'react-delay-input';
+import Slider from '@material-ui/core/Slider';
 
 const axios = require('axios');
 const { ethers } = require("ethers");
@@ -68,8 +69,8 @@ export default function TokensControl(props) {
     setToBuy(event.target.value)
   }
 
-  const handleSlippageChange = (event) => {
-    setSlippage(event.target.value)
+  const handleSlippageChange = (event, newValue) => {
+    setSlippage(newValue)
   }
 
   const handleInvestChange = (event) => {
@@ -78,7 +79,7 @@ export default function TokensControl(props) {
 
   const addToken = (event) => {
     axios
-      .post('/add', {
+      .post('http://localhost:3001/add', {
         address: address,
         toBuy: toBuy,
         slippage: slippage,
@@ -90,7 +91,7 @@ export default function TokensControl(props) {
 
   const removeToken = (address) => {
     axios
-      .post('/remove', {
+      .post('http://localhost:3001/remove', {
         address: address
       })
   }
@@ -103,9 +104,9 @@ export default function TokensControl(props) {
             <TableHead>
               <TableRow>
                 <TableCell>Address</TableCell>
-                <TableCell align="right">To buy</TableCell>
+                <TableCell align="right">Tokens to buy</TableCell>
                 <TableCell align="right">Slippage</TableCell>
-                <TableCell align="right">Invest</TableCell>
+                <TableCell align="right">ETH to use</TableCell>
                 <TableCell align="right">Decimals</TableCell>
                 <TableCell align="right">Name</TableCell>
                 <TableCell align="right"></TableCell>
@@ -129,27 +130,27 @@ export default function TokensControl(props) {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item item xs={12}>
         <Grid container>
-         <Grid item>
-                <FormLabel>Address</FormLabel><DelayInput style={{width : "50ch"}} label="" delayTimeout={300} value={address} onChange={handleAddressChange} />
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>Address</FormLabel><DelayInput style={{width : "50ch"}} label="" delayTimeout={300} value={address} onChange={handleAddressChange} />
          </Grid>
-         <Grid item>
-                <FormLabel>To buy</FormLabel><DelayInput label="" delayTimeout={300} value={toBuy} onChange={handleToBuyChange} />
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>To buy</FormLabel><DelayInput style={{width : "10ch"}} label="" delayTimeout={300} value={toBuy} onChange={handleToBuyChange} />
          </Grid>
-         <Grid item>
-                <FormLabel>Slippage</FormLabel><DelayInput label="" delayTimeout={300} value={slippage} onChange={handleSlippageChange} />
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>Slippage</FormLabel><Slider style={{width: "50ch"}} min={0} max={2000} value={slippage} onChange={handleSlippageChange} aria-labelledby="continuous-slider" />{slippage}%
          </Grid>
-         <Grid item>
-                <FormLabel>Invest</FormLabel><DelayInput label="" delayTimeout={300} value={invest} onChange={handleInvestChange} />
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>Invest</FormLabel><DelayInput style={{width : "10ch"}} label="" delayTimeout={300} value={invest} onChange={handleInvestChange} />
          </Grid>
-         <Grid item>
-                <FormLabel>Digits:{decimals}</FormLabel>
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>Digits</FormLabel>{decimals}
          </Grid>
-         <Grid item>
-                <FormLabel>Name:{name}</FormLabel>
+         <Grid container container item xs={12}>
+                <FormLabel style={{width: "10ch"}}>Name</FormLabel>{name}
          </Grid>
-         <Grid item>
+         <Grid container container item xs={12}>
          <Button onClick={addToken}>Add</Button>
          </Grid>
         </Grid>

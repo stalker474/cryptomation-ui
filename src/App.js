@@ -24,12 +24,12 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch("/status")
+      fetch("http://localhost:3001/status")
       .then((res) => res.json())
       .then((data) => {
         setData(data)
       });
-    }, 3000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 

@@ -22,7 +22,7 @@ export default function StatusControl(props) {
   const classes = useStyles();
 
   const startBot = (event) => {
-    fetch("/start")
+    fetch("http://localhost:3001/start")
     .then((res) => res.json())
     .then((data) => {
         console.log(data)
@@ -30,7 +30,7 @@ export default function StatusControl(props) {
   }
 
   const stopBot = (event) => {
-    fetch("/stop")
+    fetch("http://localhost:3001/stop")
     .then((res) => res.json())
     .then((data) => {
         console.log(data)

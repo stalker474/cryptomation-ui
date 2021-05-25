@@ -35,20 +35,21 @@ export default function GasControl(props) {
   
     const handleChangeGasLimit = (event) => {
       axios
-      .post('/change', {
+      .post('http://localhost:3001/change', {
         limit: event.target.value.toString()
       })
     };
 
     const handleChangeGasDelta = (event) => {
       axios
-      .post('/change', {
-        gas_delta: event.target.value.toString()
+      .post('http://localhost:3001/change', {
+        gas_price: ethers.utils.parseUnits(event.target.value.toString(), "gwei")
       })
     };
 
     if(props.data && props.data.CONF) {
-      if(props.data.CONF.gas_price != gasDeltaValue) setGasDelta(props.data.CONF.gas_price);
+      const formatted = ethers.utils.formatUnits(props.data.CONF.gas_price, "gwei");
+      if(formatted != gasDeltaValue) setGasDelta(formatted);
       if(props.data.CONF.gas != gasLimitValue) setGasLimit(props.data.CONF.gas);
     }
 
@@ -68,12 +69,12 @@ export default function GasControl(props) {
         </Grid>
         <Grid container item xs={12} spacing={3}>
           <Grid item>
-            <FormLabel>Gas delta:</FormLabel><DelayInput label="" delayTimeout={300} value={gasDeltaValue} onChange={handleChangeGasDelta} />
+            <FormLabel>Gas (gwei):</FormLabel><DelayInput label="" delayTimeout={300} value={gasDeltaValue} onChange={handleChangeGasDelta} />
           </Grid>
         </Grid>
         <Grid container item xs={12} spacing={3}>
           <Grid item>
-            <FormLabel>Gas price: {gasPrice.fast}</FormLabel>
+            <FormLabel>Gas price: {gasPrice.fast / 10}</FormLabel>
           </Grid>
         </Grid>
       </Grid>
